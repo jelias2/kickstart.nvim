@@ -6,6 +6,7 @@ return {
   {
     'lewis6991/gitsigns.nvim',
     opts = {
+      current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
       on_attach = function(bufnr)
         local gitsigns = require 'gitsigns'
 
@@ -15,7 +16,7 @@ return {
           vim.keymap.set(mode, l, r, opts)
         end
 
-        -- Navigation
+        -- Navigation NOTE: Here we can configure how to navigate to different hunks, config someday
         map('n', ']c', function()
           if vim.wo.diff then
             vim.cmd.normal { ']c', bang = true }
