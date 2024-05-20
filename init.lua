@@ -198,6 +198,8 @@ vim.keymap.set('n', '<C-t>', '<cmd>ToggleTerm direction=float<cr>', { desc = 'To
 vim.keymap.set('n', 'L', '<cmd>BufferNext<cr>', { desc = 'Cycle Buffer Next' })
 vim.keymap.set('n', 'H', '<cmd>BufferPrevious<cr>', { desc = 'Cycle Buffer Previous' })
 
+vim.keymap.set('n', '<leader>c', '<cmd>BufferClose<cr>', { desc = 'Buffer Close' })
+
 -- Terminal Mode Remaps
 vim.keymap.set('t', '<C-t>', '<C-\\><C-n><C-w>l', { desc = 'Toggle Floating Terminal from Terminal Mode' })
 
@@ -336,7 +338,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = true },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that

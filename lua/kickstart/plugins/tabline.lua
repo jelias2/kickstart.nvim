@@ -13,6 +13,9 @@ return {
     end,
     opts = {
       -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+      icons = {
+        preset = 'slanted',
+      },
       -- animation = true,
       -- insert_at_start = true,
       -- …etc.
