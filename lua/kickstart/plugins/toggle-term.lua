@@ -6,6 +6,9 @@ return {
     'akinsho/toggleterm.nvim',
     version = '*',
     opts = {--[[ things you want to change go here]]
+      -- direction = 'vertical' | 'horizontal' | 'tab' | 'float',
+      direction = 'horizontal',
+      size = 21,
     },
   },
 }

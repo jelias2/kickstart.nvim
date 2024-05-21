@@ -194,7 +194,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('i', 'jk', '<Esc>', {})
 
 -- Normal Mode Remaps
-vim.keymap.set('n', '<C-t>', '<cmd>ToggleTerm direction=float<cr>', { desc = 'Toggle Floating Terminal' })
+vim.keymap.set('n', '<C-t>', '<cmd>ToggleTerm<cr>', { desc = 'Toggle Floating Terminal' })
 vim.keymap.set('n', 'L', '<cmd>BufferNext<cr>', { desc = 'Cycle Buffer Next' })
 vim.keymap.set('n', 'H', '<cmd>BufferPrevious<cr>', { desc = 'Cycle Buffer Previous' })
 
