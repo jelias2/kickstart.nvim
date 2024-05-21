@@ -38,6 +38,7 @@ return {
   --- Notes
   --- When in Neotree window use the following shortcuts
   --- 'R' to refresh the filetree
+  --- 'r' to refresh the filetree
   --- 'Backspace' to go up a directory
   --- '.' to set a new root of the filetree
   --- 's' to open a file in split
