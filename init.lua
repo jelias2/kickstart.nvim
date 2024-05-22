@@ -930,6 +930,7 @@ require('lazy').setup({
 
   -- Color Configurations
   require 'custom.plugins.colorscheme',
+  require 'custom.plugins.harpoon',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.

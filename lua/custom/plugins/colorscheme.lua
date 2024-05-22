@@ -9,4 +9,12 @@ return {
       },
     },
   },
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 9999,
+    opts = {
+      transparent_background = true, -- disables setting the background color.
+    },
+  },
 }
