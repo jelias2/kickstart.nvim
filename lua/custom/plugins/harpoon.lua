@@ -33,9 +33,9 @@ return {
       -- harpoon:list():select(4)
       -- end)
 
-      -- Toggle previous & next buffers stored within Harpoon list
-      vim.keymap.set('n', '<C-S-P>', function()
-        harpoon:list():prev()
+      -- Control + Shift + C = Control C Clear
+      vim.keymap.set('n', '<C-S-C>', function()
+        harpoon:list():clear()
       end)
       -- require('nvim-autopairs').setup {}
       -- -- If you want to automatically add `(` after selecting a function or method
