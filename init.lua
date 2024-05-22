@@ -198,7 +198,7 @@ vim.keymap.set('n', '<C-t>', '<cmd>ToggleTerm<cr>', { desc = 'Toggle Floating Te
 vim.keymap.set('n', 'L', '<cmd>BufferNext<cr>', { desc = 'Cycle Buffer Next' })
 vim.keymap.set('n', 'H', '<cmd>BufferPrevious<cr>', { desc = 'Cycle Buffer Previous' })
 
-vim.keymap.set('n', '<leader>c', '<cmd>BufferClose<cr>', { desc = 'Buffer Close' })
+vim.keymap.set('n', '<C-w>', '<cmd>BufferClose<cr>', { desc = 'Buffer Close' })
 
 -- Terminal Mode Remaps
 vim.keymap.set('t', '<C-t>', '<C-\\><C-n><C-w>l', { desc = 'Toggle Floating Terminal from Terminal Mode' })
@@ -928,9 +928,10 @@ require('lazy').setup({
   require 'kickstart.plugins.toggle-term', -- Toggle Term
   require 'kickstart.plugins.tabline',
 
-  -- Color Configurations
+  -- Custom Configurations
   require 'custom.plugins.colorscheme',
   require 'custom.plugins.harpoon',
+  -- require 'custom.plugins.lualine',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.

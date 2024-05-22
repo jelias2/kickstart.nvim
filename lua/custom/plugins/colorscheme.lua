@@ -17,4 +17,12 @@ return {
       transparent_background = true, -- disables setting the background color.
     },
   },
+  {
+    'EdenEast/nightfox.nvim',
+    opts = {
+      options = {
+        -- transparent = true, -- Disable setting background
+      },
+    },
+  },
 }
