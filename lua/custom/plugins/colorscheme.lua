@@ -25,4 +25,13 @@ return {
       },
     },
   },
+  {
+    'ellisonleao/gruvbox.nvim',
+    name = 'gruvbox',
+    priority = 9998,
+    opts = {
+      transparent_mode = false, -- disables setting the background color.
+      contrast = 'soft', -- can be "hard", "soft" or empty string
+    },
+  },
 }

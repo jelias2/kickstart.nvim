@@ -195,6 +195,7 @@ vim.keymap.set('i', 'jk', '<Esc>', {})
 
 -- Normal Mode Remaps
 vim.keymap.set('n', '<C-t>', '<cmd>ToggleTerm<cr>', { desc = 'Toggle Floating Terminal' })
+-- vim.keymap.set('n', '<C-S-t>', '<cmd>ToggleTerm direction=tab<cr>', { desc = 'Toggle Floating Terminal' })
 vim.keymap.set('n', 'L', '<cmd>BufferNext<cr>', { desc = 'Cycle Buffer Next' })
 vim.keymap.set('n', 'H', '<cmd>BufferPrevious<cr>', { desc = 'Cycle Buffer Previous' })
 
@@ -812,7 +813,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'gruvbox'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
@@ -932,6 +933,20 @@ require('lazy').setup({
   require 'custom.plugins.colorscheme',
   require 'custom.plugins.harpoon',
   require 'custom.plugins.lualine',
+  require 'custom.plugins.minimap',
+  require 'custom.plugins.context',
+  require 'custom.plugins.foldcode',
+  require 'custom.plugins.lastplace',
+  require 'custom.plugins.autosession',
+
+--  require('custom.plugins.autosession').setup {
+--    auto_session_pre_save_cmds = { 'Neotree close' },
+--    save_extra_cmds = {
+--      function()
+--        return [[echo "hello world"]]
+--      end,
+--    },
+--  },
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
