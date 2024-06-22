@@ -18,6 +18,7 @@ return {
     'nvim-treesitter/nvim-treesitter-context',
     opts = {
       mode = 'topline',
+      trim_scope = 'inner', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
       -- options = {
       --   theme = 'auto',
       --   component_separators = '',
