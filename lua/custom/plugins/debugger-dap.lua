@@ -1,28 +1,8 @@
 local u = require 'config.utils'
 --------------------------------------------------------------------------------
-
 local function dapConfig()
-  -- Not sure why this doesn't load from lualien file
-  vim.g.lualine_add = function(whichBar, whichSection, component, whereInSection)
-    local ok, lualine = pcall(require, 'lualine')
-    if not ok then
-      return
-    end
-    local sectionConfig = lualine.get_config()[whichBar][whichSection] or {}
-
-    local componentObj = type(component) == 'table' and component or { component }
-    if whereInSection == 'before' then
-      table.insert(sectionConfig, 1, componentObj)
-    else
-      table.insert(sectionConfig, componentObj)
-    end
-    lualine.setup { [whichBar] = { [whichSection] = sectionConfig } }
-
-    -- Theming needs to be re-applied, since the lualine-styling can change
-    require('config.theme-customization').themeModifications()
-  end
   -- SIGN-ICONS & HIGHLIGHTS
-  local hintBg = u.getHlValue('DiagnosticVirtualTextHint', 'bg')
+  local hintBg = u.getHlValue('DiagnosticVirtualTextHint', 'bg') or '#737327' -- Default yellow color
   vim.api.nvim_set_hl(0, 'DapPause', { bg = hintBg })
   local infoBg = u.getHlValue('DiagnosticVirtualTextInfo', 'bg')
   vim.api.nvim_set_hl(0, 'DapBreak', { bg = infoBg })
@@ -30,13 +10,16 @@ local function dapConfig()
   vim.fn.sign_define('DapStopped', { text = '', texthl = 'DiagnosticHint', linehl = 'DapPause' })
   vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'DiagnosticInfo', linehl = 'DapBreak' })
   vim.fn.sign_define('DapBreakpointRejected', { text = '', texthl = 'DiagnosticError' })
+  vim.api.nvim_set_hl(0, 'DapUIModifiedValue', { bg = '#737327', bold = true })
 
   -- AUTO-OPEN/CLOSE THE DAP-UI
   local listener = require('dap').listeners.before
   listener.attach.dapui_config = function()
+    vim.cmd 'Neotree close'
     require('dapui').open()
   end
   listener.launch.dapui_config = function()
+    vim.cmd 'Neotree close'
     require('dapui').open()
   end
   listener.event_terminated.dapui_config = function()
@@ -50,7 +33,7 @@ local function dapConfig()
   -- LUALINE COMPONENTS
   local breakpointHl = vim.fn.sign_getdefined('DapBreakpoint')[1].texthl or 'DiagnosticInfo'
   local breakpointFg = u.getHlValue(breakpointHl, 'fg')
-  vim.g.lualine_add('sections', 'lualine_y', {
+  vim.g.lualine_add_2('sections', 'lualine_y', {
     color = { fg = breakpointFg },
     function()
       local breakpoints = require('dap.breakpoints').get()
@@ -65,7 +48,7 @@ local function dapConfig()
       return breakpointIcon .. tostring(breakpointSum)
     end,
   }, 'before')
-  vim.g.lualine_add('tabline', 'lualine_z', function()
+  vim.g.lualine_add_2('sections', 'lualine_z', function()
     local dapStatus = require('dap').status()
     if dapStatus == '' then
       return ''
@@ -143,6 +126,22 @@ return {
         desc = ' Toggle Breakpoint',
       },
       {
+        '9',
+        function()
+          require('dap-go').debug_test()
+        end,
+        mode = { 'n', 'x' },
+        desc = 'Debug Test',
+      },
+      {
+        '0',
+        function()
+          require('dap-go').debug_last_test()
+        end,
+        mode = { 'n', 'x' },
+        desc = 'Debug Last ',
+      },
+      {
         '<leader>dn',
         function()
           gotoBreakpoint 'next'
@@ -177,6 +176,30 @@ return {
         end,
         desc = ' Terminate',
       },
+      {
+        '<leader>dn',
+        function()
+          require('dap').step_over()
+        end,
+        mode = { 'n', 'x' },
+        desc = 'Step Next',
+      },
+      {
+        '<leader>di',
+        function()
+          require('dap').step_into()
+        end,
+        mode = { 'n', 'x' },
+        desc = 'Step Into',
+      },
+      {
+        '<leader>do',
+        function()
+          require('dap').step_out()
+        end,
+        mode = { 'n', 'x' },
+        desc = 'Step Out',
+      },
     },
     init = function()
       vim.g.whichkey_leader_subkey('d', ' Debugger', { 'n', 'x' })
@@ -188,24 +211,6 @@ return {
       -- Set log file path
       local log_file = vim.fn.stdpath 'data' .. '/dap-2.log'
       require('dap-go').setup()
-
-      -- -- Define the Go adapter
-      -- dap.adapters.go = {
-      --   type = 'executable',
-      --   command = 'dlv',
-      --   args = { 'dap' },
-      -- }
-      --
-      -- -- Configure debugging for Go
-      -- dap.configurations.go = {
-      --   {
-      --     type = 'go',
-      --     name = 'Debug Specific Test File',
-      --     request = 'launch',
-      --     mode = 'test',
-      --     program = '${file}', -- This will be replaced with the current file
-      --   },
-      -- }
     end,
     config = dapConfig,
   },
@@ -220,13 +225,13 @@ return {
         end,
         desc = '󱂬 dap-ui',
       },
-      {
-        '<leader>di',
-        function()
-          require('dapui').float_element('repl', { enter = true })
-        end, ---@diagnostic disable-line: missing-fields
-        desc = ' REPL',
-      },
+      -- {
+      --   '<leader>di',
+      --   function()
+      --     require('dapui').float_element('repl', { enter = true })
+      --   end, ---@diagnostic disable-line: missing-fields
+      --   desc = ' REPL',
+      -- },
       {
         '<leader>dl',
         function()
@@ -249,16 +254,17 @@ return {
         element = 'scopes',
       },
       mappings = {
-        expand = { '<Tab>', '<2-LeftMouse>', '<CR>' }, -- 2-LeftMouse = Double Click
+        expand = { '<CR>', '<Tab>', '<2-LeftMouse>', '<CR>' }, -- 2-LeftMouse = Double Click
         open = '<CR>',
       },
+      expand_lines = false,
       floating = {
         border = vim.g.borderStyle,
         mappings = { close = { 'q', '<Esc>', '<D-w>' } },
       },
       layouts = {
         {
-          position = 'right',
+          position = 'left',
           size = 40, -- width
           elements = {
             { id = 'scopes', size = 0.7 }, -- Variables

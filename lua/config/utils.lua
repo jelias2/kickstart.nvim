@@ -99,6 +99,28 @@ vim.g.whichkey_leader_subkey = function(key, label, modes)
     whichkey.register({ [key] = { name = ' ' .. label } }, { prefix = '<leader>', mode = modes or 'n' })
   end, 1500)
 end
+---@param whichBar "tabline"|"winbar"|"inactive_winbar"|"sections"
+---@param whichSection "lualine_a"|"lualine_b"|"lualine_c"|"lualine_x"|"lualine_y"|"lualine_z"
+---@param component function|table the component forming the lualine
+---@param whereInSection? "before"|"after" defaults to "after"
+vim.g.lualine_add_2 = function(whichBar, whichSection, component, whereInSection)
+  local ok, lualine = pcall(require, 'lualine')
+  if not ok then
+    return
+  end
+  local sectionConfig = lualine.get_config()[whichBar][whichSection] or {}
+
+  local componentObj = type(component) == 'table' and component or { component }
+  if whereInSection == 'before' then
+    table.insert(sectionConfig, 1, componentObj)
+  else
+    table.insert(sectionConfig, componentObj)
+  end
+  lualine.setup { [whichBar] = { [whichSection] = sectionConfig } }
+
+  -- Theming needs to be re-applied, since the lualine-styling can change
+  require('config.theme-customization').themeModifications()
+end
 --------------------------------------------------------------------------------
 
 M.textobjRemaps = {
